@@ -1,13 +1,15 @@
 <div class="movie-component pb-3">
   <div class="header position-relative">
+    <label>test</label>
     <ngx-flicking [options]="options" [plugins]="plugins">
-      <div flicking-panel class="poster-path" *ngFor="let movie of headerMovies"
+      <div flicking-panel class="poster-path" *ngFor="let movie of moviesNowPlaying"
            [style]="{
          'background': (movie.backdrop_path | imageTransform: true : 'original' : 'center center / cover no-repeat')
          }">
         <div class="row movie-info position-relative">
           <div>
             <h1 class="col-6 vivify fadeInTop delay-100">{{movie.title}}</h1>
+            
             <p class="col-4 vivify fadeInBottom delay-100">{{movie.overview}}</p>
 
             <p class="mb-2 genres vivify fadeInBottom delay-100"><strong>Generos:</strong> {{movie.genre_ids | transformGenres : genres}}</p>

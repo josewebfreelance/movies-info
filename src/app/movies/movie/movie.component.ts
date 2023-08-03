@@ -60,13 +60,6 @@ export class MovieComponent implements OnInit, OnDestroy {
     const nowPlayingMovies$: Subscription = this.moviesService.queryMovies('now_playing').subscribe({
       next: (response: any) => {
         this.moviesNowPlaying = response?.results;
-
-        this.moviesNowPlaying.forEach((item) => {
-          if (this.headerMovies.length < 10) {
-            if (item?.overview?.length)
-              this.headerMovies.push(item)
-          }
-        })
       },
       error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
     });
