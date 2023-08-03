@@ -4,3 +4,5 @@
 
 $primary-color: map-get(mat.$light-blue-palette, 900);
 $secondary-color: map-get(mat.$teal-palette, 50);
+
+$gradient: linear-gradient(to bottom right, #000000, #0a2141);

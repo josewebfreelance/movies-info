@@ -1,0 +1,33 @@
+.mat-mdc-card {
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, .1);
+
+  .mat-mdc-card-content {
+    padding: 2px;
+
+    .poster-path {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  }
+}
+
+p {
+  color: white;
+  font-weight: bold;
+  width: 86%;
+  margin: auto;
+}
+
+.section-title {
+  color: white;
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.8em !important;
+  font-weight: 600;
+}
+
+.item-title {
+  font-size: 14px;
+}

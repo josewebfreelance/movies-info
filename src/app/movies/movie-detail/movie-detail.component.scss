@@ -1,0 +1,49 @@
+.movie-detail-component {
+  .backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+
+    &:after {
+      content: '';
+      background: linear-gradient(to left, rgba(0, 0, 0, .7) 50%, rgba(0, 0, 0, 0));
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .info-detail {
+    color: white;
+    padding-top: 25vh;
+    padding-bottom: 25vh;
+
+    h1 {
+      font-size: 4.5em;
+      overflow-wrap: break-word;
+      line-height: initial;
+    }
+
+    h2 {
+      font-size: 3em;
+      opacity: .8;
+    }
+
+    .info {
+      // height: 80vh;
+    }
+
+    .other-info {
+      h4, h4 {
+        margin: 0;
+      }
+    }
+  }
+
+  .flicking-camera,
+  .flicking-viewport {
+    height: 270px;
+  }
+}

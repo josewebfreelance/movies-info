@@ -1,0 +1,54 @@
+<div class="movie-detail-component">
+  <div class="backdrop z-1" [ngStyle]="{
+         'background': movie.backdrop_path | imageTransform: true : 'original' : '50% 10% / 120% no-repeat'
+         }">
+  </div>
+
+  <div class="w-100 position-absolute z-2 top-0 left-0">
+
+    <div class="d-flex info-detail">
+      <div class="col-2 offset-6 other-info">
+        <div *ngIf="movie.original_title">
+          <h4><strong>Titulo original</strong></h4>
+          <label class="mb-3">{{movie.original_title}}</label>
+        </div>
+
+        <div *ngIf="movie.status">
+          <h4><strong>Estado</strong></h4>
+          <label class="mb-3">{{movie.status && movie.status === 'Released' ? 'Estrenada' : ''}}</label>
+        </div>
+
+        <div *ngIf="movie.original_language">
+          <h4><strong>Idioma original</strong></h4>
+          <label class="mb-3">{{movie.original_language && movie.original_language === 'en' ? 'Inglés' : ''}}</label>
+        </div>
+
+        <div *ngIf="movie.budget > 0">
+          <h4><strong>Presupuesto</strong></h4>
+          <label>$ {{movie.budget | number : '1.0-0' : ''}}</label>
+        </div>
+      </div>
+
+      <div class="col-4 pe-3 info">
+        <div>
+          <h2><strong>{{movie.title | transformTitle}}</strong></h2>
+          <h1><strong>{{movie.title | transformTitle}}</strong></h1>
+
+          <p class="mt-5">{{movie.overview}}</p>
+
+          <div class="d-flex genres">
+            <h4><strong>Géneros:</strong></h4>
+            <h4 class="ms-1" *ngFor="let genre of movie.genres; let index = index;">
+              {{genre.name}}{{index !== movie.genres?.length - 1 ? ', ' : ''}}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-5 pe-5 cast pb-3">
+      <app-item-list [titleList]="'Reparto principal'" [titleAlign]="'text-end'" [list]="cast" [sizeCard]="1"
+                     [imageProperty]="'profile_path'" [itemTitle]="'name'" [itemSubTitle]="'character'" [classSpace]="'me-3'"></app-item-list>
+    </div>
+  </div>
+</div>

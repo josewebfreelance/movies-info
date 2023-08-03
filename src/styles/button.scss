@@ -1,0 +1,8 @@
+.mat-mdc-raised-button:not(:disabled) {
+  border-radius: 100px;
+  height: 40px;
+
+  &.mat-warn {
+    box-shadow: 0 8px 20px -4px rgba(244, 67, 54, 0.8);
+  }
+}

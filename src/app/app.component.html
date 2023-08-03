@@ -1,2 +1,12 @@
 <ng-http-loader></ng-http-loader>
-<router-outlet></router-outlet>
+<div class="container-fluid p-0">
+  <mat-drawer-container class="example-container" [hasBackdrop]="true">
+    <mat-drawer #drawer [mode]="'over'" [position]="'end'" style="width: 90vw">
+      <app-search (isOpen)="changeStatusDrawer($event)"></app-search>
+    </mat-drawer>
+    <mat-drawer-content>
+      <app-navigation (actionDrawer)="changeStatusDrawer($event);" class="app-navigation w-100"></app-navigation>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

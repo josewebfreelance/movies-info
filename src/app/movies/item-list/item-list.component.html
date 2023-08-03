@@ -1,0 +1,19 @@
+<div class="item-list-component">
+  <h1 class="section-title mt-0 {{titleAlign}}" *ngIf="titleList">{{titleList}}</h1>
+
+  <ngx-flicking [options]="{ circular: true, align: { camera: '8%', panel: '7%' } }" [plugins]="plugins">
+    <ng-container *ngFor="let item of list">
+      <div flicking-panel class="card-panel {{classSpace}} col-{{sizeCard}}" *ngIf="item[imageProperty]">
+        <app-movie-item [imageProperty]="imageProperty"
+                        [isRedirect]="isRedirect"
+                        [itemTitle]="itemTitle"
+                        [itemSubTitle]="itemSubTitle"
+                        [item]="item"
+        ></app-movie-item>
+      </div>
+    </ng-container>
+
+    <span in-viewport class="flicking-arrow-prev"></span>
+    <span in-viewport class="flicking-arrow-next"></span>
+  </ngx-flicking>
+</div>

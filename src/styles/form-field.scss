@@ -1,0 +1,11 @@
+.search-field {
+  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input,
+  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder {
+    color: white;
+    font-size: 1.3em;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: rgba(10, 33, 64, 0.5);
+  }
+}

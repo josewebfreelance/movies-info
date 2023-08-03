@@ -1,43 +1,71 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MoviesService} from "../services/movies.service";
 import {Plugin} from "@egjs/ngx-flicking";
-import {Fade, AutoPlay, Pagination} from '@egjs/flicking-plugins';
+import {AutoPlay, Fade} from '@egjs/flicking-plugins';
+import {GenresService} from "../services/genres.service";
 
 @Component({
-  selector: 'app-movie-list',
-  templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.scss'],
+  selector: 'app-movie',
+  templateUrl: './movie.component.html',
+  styleUrls: ['./movie.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MovieListComponent implements OnInit {
+export class MovieComponent implements OnInit {
 
   public plugins: Plugin[] = [
     new Fade(),
-    new AutoPlay({ duration: 6000, animationDuration: -100, direction: 'NEXT' })
+    new AutoPlay({duration: 2000, direction: "NEXT", stopOnHover: false})
   ];
 
+  options: any = {
+    circular: true, horizontal: true
+  }
+
   moviesNowPlaying: any[] = [];
-  test: any[] = [];
+  headerMovies: any[] = [];
+
+  popularMovies: any[] = [];
+
+  genres: any[] = [];
+  protected readonly Fade = Fade;
 
   constructor(
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private genresService: GenresService
   ) {
   }
 
   ngOnInit() {
-    this.getMoviesNowPlaying();
+    this.getNowPlayingMovies();
+    this.getPopularMovies();
+    this.getGenres();
   }
 
-  getMoviesNowPlaying() {
-    this.moviesService.queryNowPlayingMovies().subscribe({
+  getGenres() {
+    this.genresService.queryGenres('movie').subscribe({
+      next: (response: any) => this.genres = response.genres
+    })
+  }
+
+  getNowPlayingMovies() {
+    this.moviesService.queryMovies('now_playing').subscribe({
       next: (response: any) => {
         this.moviesNowPlaying = response.results;
 
         this.moviesNowPlaying.forEach((item, index) => {
-          if (index < 10) {
-            this.test.push(item)
+          if (this.headerMovies.length < 10) {
+            if (item.overview.length)
+              this.headerMovies.push(item)
           }
         })
+      }
+    })
+  }
+
+  getPopularMovies() {
+    this.moviesService.queryMovies('popular').subscribe({
+      next: (response: any) => {
+        this.popularMovies = response.results;
       }
     })
   }
@@ -45,6 +73,4 @@ export class MovieListComponent implements OnInit {
   onNeedPanel(event: any) {
     console.log(event)
   }
-
-  protected readonly Fade = Fade;
 }

@@ -1,0 +1,17 @@
+@import '../variables';
+
+.container-fluid {
+  .mat-drawer {
+    background: $gradient;
+    padding: 3rem;
+  }
+
+  .mat-drawer-container {
+    background-color: transparent;
+  }
+
+  .app-navigation {
+    position: fixed;
+    z-index: 5;
+  }
+}

@@ -1,8 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@egjs/flicking/dist/flicking.css';
 @import './theme';
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('./styles/vivify.min.css');
+@import 'styles/styles';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, p, label, strong, div, span {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  background: linear-gradient(to bottom right, #000000, #0a2141);
+}

@@ -1,0 +1,11 @@
+.result-search {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.search-field {
+  .mat-mdc-form-field-bottom-align {
+    display: none;
+  }
+}

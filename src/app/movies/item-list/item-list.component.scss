@@ -1,0 +1,18 @@
+.card-panel {
+  height: 100%;
+}
+
+.flicking-arrow-prev::before,
+.flicking-arrow-prev::after,
+.flicking-arrow-next::before,
+.flicking-arrow-next::after {
+  background-color: white !important;
+}
+
+.section-title {
+  color: white;
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+  font-size: 1.8em !important;
+  font-weight: 600;
+}

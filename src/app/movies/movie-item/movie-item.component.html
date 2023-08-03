@@ -1,0 +1,10 @@
+<a class="text-decoration-none" [routerLink]="isRedirect ? [isRedirect, item.id] : null">
+  <mat-card>
+    <mat-card-content>
+      <img class="poster-path" src="{{item[imageProperty] | imageTransform : false : 'w500'}}" alt=""/>
+    </mat-card-content>
+  </mat-card>
+
+  <h4 class="item-title text-white mb-0" *ngIf="itemTitle"><strong>{{item[itemTitle]}}</strong></h4>
+  <h5 class="item-sub-title text-white mb-0" *ngIf="itemSubTitle">{{item[itemSubTitle]}}</h5>
+</a>

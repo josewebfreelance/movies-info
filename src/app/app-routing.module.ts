@@ -1,13 +1,11 @@
 import {RouterModule, Routes} from '@angular/router';
-import {MovieListComponent} from "./movies/components/movie-list/movie-list.component";
+import {MovieComponent} from "./movies/movie/movie.component";
+import {MovieDetailComponent} from "./movies/movie-detail/movie-detail.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/peliculas/listado', pathMatch: 'full'},
-  {path: 'peliculas/listado', component: MovieListComponent},
-  {
-    path: 'peliculas',
-    loadChildren: () => import('../app/movies/movies.module').then(m => m.MoviesModule)
-  }
+  {path: '', redirectTo: '/peliculas', pathMatch: 'full'},
+  {path: 'peliculas', component: MovieComponent},
+  {path: 'peliculas/mas-detalles/:id', component: MovieDetailComponent}
 ];
 
 export const RoutingModule = RouterModule.forRoot(routes, {useHash: true});

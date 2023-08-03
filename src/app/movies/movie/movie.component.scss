@@ -1,13 +1,63 @@
-.movie-list-component {
-  .mat-mdc-card {
-    border-radius: 16px;
+.movie-component {
+  .header {
+    height: 100vh;
 
-    .mat-mdc-card-content {
-      .poster-path {
-        width: 100%;
-        height: auto;
-        border-radius: 16px;
+    .poster-path {
+      height: 100%;
+      width: 100%;
+    }
+
+    .movie-info {
+      background: linear-gradient(to top right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+      padding-left: 5rem;
+      display: flex;
+      height: 100vh;
+      align-items: center;
+      color: white;
+      z-index: 2;
+
+      h1 {
+        font-size: 4em;
+        margin-bottom: 2rem;
+        white-space: pre-wrap;
+        line-height: 72px;
+        font-weight: 600;
       }
+
+      p {
+        font-size: 1.1em;
+      }
+
+      p, .rate {
+        margin-bottom: 2.5rem;
+      }
+
+      .genres {
+        font-size: .9em;
+
+        strong {
+          font-size: 1.1em;
+        }
+      }
+
+      .rate {
+        .mat-icon {
+          color: #ffe57f;
+          font-size: 1.8em;
+        }
+
+        label {
+          font-size: 1.6em;
+        }
+      }
+    }
+
+    .now-watching {
+      bottom: .1rem;
+      z-index: 2;
+      right: 0;
+      position: absolute;
+      width: 40%;
     }
   }
 }
