@@ -1,9 +1,9 @@
 import {Component, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MoviesService} from "../services/movies.service";
-import {NgxToastService} from "@angular-magic/ngx-toast";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Subscription} from "rxjs";
+import {NotificationsAdapter} from "../../shared/adapters/notifications-adapter";
 
 @Component({
   selector: 'app-movie-detail',
@@ -21,7 +21,7 @@ export class MovieDetailComponent implements OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private moviesService: MoviesService,
-    private ngxToastService: NgxToastService
+    private notifications: NotificationsAdapter
   ) {
     this.activatedRoute.params.subscribe((params: any) => {
       const {id} = params;
@@ -36,7 +36,7 @@ export class MovieDetailComponent implements OnDestroy {
   getMoviesById(movieId: number): void {
     const moviesById$ = this.moviesService.queryMoviesById(movieId).subscribe({
       next: (response: any) => this.movie = response,
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     })
 
     this.observers.push(moviesById$);
@@ -45,7 +45,7 @@ export class MovieDetailComponent implements OnDestroy {
   getCredits(movieId: number): void {
     const credits$ = this.moviesService.queryCredits(movieId).subscribe({
       next: (response: any) => this.cast = response.cast,
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     })
 
     this.observers.push(credits$);

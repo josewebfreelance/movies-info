@@ -2,8 +2,8 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {FormControl} from "@angular/forms";
 import {MoviesService} from "../services/movies.service";
 import {debounceTime, Subscription} from "rxjs";
-import {NgxToastService} from "@angular-magic/ngx-toast";
 import {HttpErrorResponse} from "@angular/common/http";
+import {NotificationsAdapter} from "../../shared/adapters/notifications-adapter";
 
 @Component({
   selector: 'app-search',
@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private moviesService: MoviesService,
-    private ngxToastService: NgxToastService
+    private notifications: NotificationsAdapter
   ) {
   }
 
@@ -46,7 +46,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   getSearchMovie(value: any) {
     const searchMovie$ = this.moviesService.querySearchMovie({query: value}).subscribe({
       next: (response: any) => this.movies = response.results,
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     })
 
     this.observers.push(searchMovie$);

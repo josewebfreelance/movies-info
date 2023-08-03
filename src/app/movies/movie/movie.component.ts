@@ -4,8 +4,8 @@ import {Plugin} from "@egjs/ngx-flicking";
 import {AutoPlay, Fade} from '@egjs/flicking-plugins';
 import {GenresService} from "../services/genres.service";
 import {Subscription} from "rxjs";
-import {NgxToastService} from "@angular-magic/ngx-toast";
 import {HttpErrorResponse} from "@angular/common/http";
+import {NotificationsAdapter} from "../../shared/adapters/notifications-adapter";
 
 @Component({
   selector: 'app-movie',
@@ -27,7 +27,6 @@ export class MovieComponent implements OnInit, OnDestroy {
   }
 
   moviesNowPlaying: any[] = [];
-  headerMovies: any[] = [];
   popularMovies: any[] = [];
   topRatedMovies: any[] = [];
 
@@ -36,7 +35,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   constructor(
     private moviesService: MoviesService,
     private genresService: GenresService,
-    private ngxToastService: NgxToastService
+    private notifications: NotificationsAdapter
   ) {
   }
 
@@ -50,7 +49,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   getGenres() {
     const genre$: Subscription = this.genresService.queryGenres('movie').subscribe({
       next: (response: any) => this.genres = response.genres,
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     })
 
     this.observers.push(genre$);
@@ -58,10 +57,10 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   getNowPlayingMovies() {
     const nowPlayingMovies$: Subscription = this.moviesService.queryMovies('now_playing').subscribe({
-      next: (response: any) => {
-        this.moviesNowPlaying = response?.results;
+      next: ({results}: any) => {
+        this.moviesNowPlaying = results;
       },
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     });
 
     this.observers.push(nowPlayingMovies$);
@@ -69,10 +68,10 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   getPopularMovies() {
     const popularMovies$: Subscription = this.moviesService.queryMovies('popular').subscribe({
-      next: (response: any) => {
-        this.popularMovies = response.results;
+      next: ({results}: any) => {
+        this.popularMovies = results;
       },
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     })
 
     this.observers.push(popularMovies$);
@@ -80,10 +79,10 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   getTopRatedMovies(): void {
     const topRatedMovie$ = this.moviesService.queryTopRatedMovie().subscribe({
-      next: (response: any) => {
-        this.topRatedMovies = response.results;
+      next: ({results}: any) => {
+        this.topRatedMovies = results;
       },
-      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+      error: (err: HttpErrorResponse) => this.notifications.error({title: 'Error', messages: [err.message]})
     });
 
     this.observers.push(topRatedMovie$);
