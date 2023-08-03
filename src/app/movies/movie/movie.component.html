@@ -1,0 +1,18 @@
+<div class="movie-list-component">
+  <div class="header">
+    <ngx-flicking [options]="{ circular: true, horizontal: true }" [plugins]="plugins" style="width: 100%; height: 900px">
+      <div flicking-panel class="weather-panel" *ngFor="let movie of test">
+        <img class="poster-path" src="{{movie.poster_path | imageTransform}}" alt="" fill=""/>
+      </div>
+    </ngx-flicking>
+  </div>
+  <div class="row overflow-x-auto overflow-y-hidden flex-nowrap m-1">
+    <div class="col-2" *ngFor="let movie of moviesNowPlaying">
+      <mat-card>
+        <mat-card-content class="p-0">
+          <img class="poster-path" src="{{movie.poster_path | imageTransform}}" alt="" fill=""/>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

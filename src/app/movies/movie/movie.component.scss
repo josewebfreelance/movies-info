@@ -1,0 +1,13 @@
+.movie-list-component {
+  .mat-mdc-card {
+    border-radius: 16px;
+
+    .mat-mdc-card-content {
+      .poster-path {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+      }
+    }
+  }
+}
