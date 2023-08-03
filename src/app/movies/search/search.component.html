@@ -6,14 +6,16 @@
 </form>
 
 <div class="row result-search">
-  <div class="col-2" *ngFor="let item of movies">
-    <app-movie-item (click)="changeStatus()"
-      [item]="item"
-      [imageProperty]="'poster_path'"
-      [itemTitle]="'title'"
-      [isRedirect]="'peliculas/mas-detalles'"
-    ></app-movie-item>
-  </div>
+  <ng-container *ngFor="let item of movies">
+    <div class="col-2" *ngIf="item['poster_path']">
+      <app-movie-item (click)="changeStatus()"
+                      [item]="item"
+                      [imageProperty]="'poster_path'"
+                      [itemTitle]="'title'"
+                      [isRedirect]="'peliculas/mas-detalles'"
+      ></app-movie-item>
+    </div>
+  </ng-container>
 </div>
 
 

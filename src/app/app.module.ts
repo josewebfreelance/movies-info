@@ -19,6 +19,8 @@ import { TransformTitlePipe } from './shared/pipes/transform-title.pipe';
 import { SearchComponent } from './movies/search/search.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MovieItemComponent } from './movies/movie-item/movie-item.component';
+import {NgxToastModule} from "@angular-magic/ngx-toast";
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { MovieItemComponent } from './movies/movie-item/movie-item.component';
     MovieItemComponent
   ],
   imports: [
+    NgxToastModule,
     BrowserModule,
     RoutingModule,
     BrowserAnimationsModule,
@@ -42,7 +45,8 @@ import { MovieItemComponent } from './movies/movie-item/movie-item.component';
     NgxFlickingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgOptimizedImage
   ],
   providers: [
     {

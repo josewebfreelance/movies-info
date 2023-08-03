@@ -31,4 +31,8 @@ export class MoviesService {
   querySearchMovie(params: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/search/movie?language=es`, {params: Params.getParams(params, this.paramsObject)});
   }
+
+  queryTopRatedMovie(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/top_rated?language=es`, {});
+  }
 }

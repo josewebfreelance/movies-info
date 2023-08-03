@@ -31,3 +31,11 @@ p {
 .item-title {
   font-size: 14px;
 }
+
+a {
+  &:hover {
+    .mat-mdc-card {
+      transform: scale(1.01);
+    }
+  }
+}

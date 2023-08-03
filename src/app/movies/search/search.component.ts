@@ -1,14 +1,17 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MoviesService} from "../services/movies.service";
-import {debounceTime} from "rxjs";
+import {debounceTime, Subscription} from "rxjs";
+import {NgxToastService} from "@angular-magic/ngx-toast";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
+  observers: Array<Subscription> = [];
 
   @Output() isOpen: EventEmitter<boolean> = new EventEmitter();
 
@@ -16,15 +19,16 @@ export class SearchComponent implements OnInit {
   movies: any[] = [];
 
   constructor(
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private ngxToastService: NgxToastService
   ) {
   }
 
   ngOnInit() {
     this.search.valueChanges.pipe(
-      debounceTime(500)
+      debounceTime(250)
     ).subscribe({
-      next: (value) => this.moviesSearch()
+      next: () => this.moviesSearch()
     })
   }
 
@@ -40,9 +44,12 @@ export class SearchComponent implements OnInit {
   }
 
   getSearchMovie(value: any) {
-    this.moviesService.querySearchMovie({query: value}).subscribe({
-      next: (response: any) => this.movies = response.results
+    const searchMovie$ = this.moviesService.querySearchMovie({query: value}).subscribe({
+      next: (response: any) => this.movies = response.results,
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
     })
+
+    this.observers.push(searchMovie$);
   }
 
   clearSearch(): void {
@@ -52,5 +59,11 @@ export class SearchComponent implements OnInit {
 
   changeStatus(): void {
     this.isOpen.emit(false);
+  }
+
+  ngOnDestroy() {
+    this.observers.forEach((observer: Subscription) => {
+      observer.unsubscribe();
+    });
   }
 }

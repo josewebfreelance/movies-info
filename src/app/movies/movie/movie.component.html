@@ -7,16 +7,17 @@
          }">
         <div class="row movie-info position-relative">
           <div>
-            <h1 class="col-6">{{movie.title}}</h1>
-            <p class="col-4">{{movie.overview}}</p>
+            <h1 class="col-6 vivify fadeInTop delay-100">{{movie.title}}</h1>
+            <p class="col-4 vivify fadeInBottom delay-100">{{movie.overview}}</p>
 
-            <p class="mb-2 genres"><strong>Generos:</strong> {{movie.genre_ids | transformGenres : genres}}</p>
-            <div class="d-flex align-items-center rate">
+            <p class="mb-2 genres vivify fadeInBottom delay-100"><strong>Generos:</strong> {{movie.genre_ids | transformGenres : genres}}</p>
+            <div class="d-flex align-items-center rate vivify fadeInBottom delay-100">
               <mat-icon class="me-2">star</mat-icon>
               <label><strong>{{movie.vote_average}}</strong></label>
             </div>
 
-            <a [routerLink]="['mas-detalles', movie.id]" type="button" mat-raised-button color="warn">MAS DETALLES</a>
+            <a [routerLink]="['mas-detalles', movie.id]" class="vivify popIn delay-100"
+               type="button" mat-raised-button color="warn">MAS DETALLES</a>
           </div>
         </div>
       </div>
@@ -26,6 +27,11 @@
       <app-item-list [classSpace]="'me-5'" class="movie-list-component" [sizeCard]="3" [list]="moviesNowPlaying" [imageProperty]="'poster_path'"
                      [isRedirect]="'mas-detalles'" [titleList]="'MAS VISTO'" [itemTitle]="'title'"></app-item-list>
     </div>
+  </div>
+
+  <div class="popular-movies ps-3 pe-3">
+    <app-item-list class="mt-3 d-block" [classSpace]="'me-4'" [sizeCard]="2" [list]="topRatedMovies" [imageProperty]="'poster_path'"
+                   [isRedirect]="'mas-detalles'" [titleList]="'MEJOR VALORADAS'" [itemTitle]="'title'"></app-item-list>
   </div>
 
   <div class="popular-movies ps-3 pe-3">

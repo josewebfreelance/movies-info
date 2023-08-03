@@ -8,35 +8,48 @@
 
     <div class="d-flex info-detail">
       <div class="col-2 offset-6 other-info">
-        <div *ngIf="movie.original_title">
+        <div class="mb-3 vivify fadeInLeft delay-100" *ngIf="movie.original_title">
           <h4><strong>Titulo original</strong></h4>
-          <label class="mb-3">{{movie.original_title}}</label>
+          <label>{{movie.original_title}}</label>
         </div>
 
-        <div *ngIf="movie.status">
+        <div class="mb-3 vivify fadeInLeft delay-150" *ngIf="movie.status">
           <h4><strong>Estado</strong></h4>
-          <label class="mb-3">{{movie.status && movie.status === 'Released' ? 'Estrenada' : ''}}</label>
+          <label>{{movie.status && movie.status === 'Released' ? 'Estrenada' : ''}}</label>
         </div>
 
-        <div *ngIf="movie.original_language">
+        <div class="mb-3 vivify fadeInLeft delay-200" *ngIf="movie.original_language">
           <h4><strong>Idioma original</strong></h4>
-          <label class="mb-3">{{movie.original_language && movie.original_language === 'en' ? 'Inglés' : ''}}</label>
+          <label>{{movie.original_language && movie.original_language === 'en' ? 'Inglés' : ''}}</label>
         </div>
 
-        <div *ngIf="movie.budget > 0">
+        <div class="mb-3 vivify fadeInLeft delay-250" *ngIf="movie.budget > 0">
           <h4><strong>Presupuesto</strong></h4>
           <label>$ {{movie.budget | number : '1.0-0' : ''}}</label>
+        </div>
+
+        <div class="mb-3 vivify fadeInLeft delay-300" *ngIf="movie.revenue > 0">
+          <h4><strong>Ingresos</strong></h4>
+          <label>$ {{movie.revenue | number : '1.0-0' : ''}}</label>
+        </div>
+
+        <div class="vivify fadeInLeft delay-350" *ngIf="movie.release_date">
+          <h4><strong>Fecha de estreno</strong></h4>
+          <label>{{movie.release_date}}</label>
         </div>
       </div>
 
       <div class="col-4 pe-3 info">
         <div>
-          <h2><strong>{{movie.title | transformTitle}}</strong></h2>
-          <h1><strong>{{movie.title | transformTitle : 1}}</strong></h1>
+          <h2 class="vivify fadeInRight delay-100"><strong>{{movie.title | transformTitle}}</strong></h2>
+          <h1 class="vivify fadeInRight delay-100"><strong>{{movie.title | transformTitle : 1}}</strong></h1>
 
-          <p class="mt-5">{{movie.overview}}</p>
+          <h3 class="vivify fadeInRight delay-150 fst-italic text-secondary mt-3 mb-4">{{movie.tagline}}</h3>
 
-          <div class="d-flex genres">
+          <h3 class="overview vivify fadeInBottom delay-100">Vista general</h3>
+          <p class="vivify fadeInBottom delay-150">{{movie.overview}}</p>
+
+          <div class="d-flex genres vivify fadeInBottom delay-150">
             <h4><strong>Géneros:</strong></h4>
             <h4 class="ms-1" *ngFor="let genre of movie.genres; let index = index;">
               {{genre.name}}{{index !== movie.genres?.length - 1 ? ', ' : ''}}

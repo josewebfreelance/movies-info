@@ -1,6 +1,9 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MoviesService} from "../services/movies.service";
+import {NgxToastService} from "@angular-magic/ngx-toast";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-movie-detail',
@@ -8,7 +11,8 @@ import {MoviesService} from "../services/movies.service";
   styleUrls: ['./movie-detail.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MovieDetailComponent {
+export class MovieDetailComponent implements OnDestroy {
+  observers: Array<Subscription> = [];
 
   movie: any = {};
 
@@ -16,7 +20,8 @@ export class MovieDetailComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private moviesService: MoviesService
+    private moviesService: MoviesService,
+    private ngxToastService: NgxToastService
   ) {
     this.activatedRoute.params.subscribe((params: any) => {
       const {id} = params;
@@ -29,15 +34,26 @@ export class MovieDetailComponent {
   }
 
   getMoviesById(movieId: number): void {
-    this.moviesService.queryMoviesById(movieId).subscribe({
-      next: (response: any) => this.movie = response
+    const moviesById$ = this.moviesService.queryMoviesById(movieId).subscribe({
+      next: (response: any) => this.movie = response,
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
     })
+
+    this.observers.push(moviesById$);
   }
 
   getCredits(movieId: number): void {
-    this.moviesService.queryCredits(movieId).subscribe({
-      next: (response: any) => this.cast = response.cast
+    const credits$ = this.moviesService.queryCredits(movieId).subscribe({
+      next: (response: any) => this.cast = response.cast,
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
     })
+
+    this.observers.push(credits$);
   }
 
+  ngOnDestroy() {
+    this.observers.forEach((observer: Subscription) => {
+      observer.unsubscribe();
+    });
+  }
 }

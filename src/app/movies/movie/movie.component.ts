@@ -1,8 +1,11 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {MoviesService} from "../services/movies.service";
 import {Plugin} from "@egjs/ngx-flicking";
 import {AutoPlay, Fade} from '@egjs/flicking-plugins';
 import {GenresService} from "../services/genres.service";
+import {Subscription} from "rxjs";
+import {NgxToastService} from "@angular-magic/ngx-toast";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-movie',
@@ -10,7 +13,9 @@ import {GenresService} from "../services/genres.service";
   styleUrls: ['./movie.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MovieComponent implements OnInit {
+export class MovieComponent implements OnInit, OnDestroy {
+
+  observers: Array<Subscription> = [];
 
   public plugins: Plugin[] = [
     new Fade(),
@@ -23,15 +28,15 @@ export class MovieComponent implements OnInit {
 
   moviesNowPlaying: any[] = [];
   headerMovies: any[] = [];
-
   popularMovies: any[] = [];
+  topRatedMovies: any[] = [];
 
   genres: any[] = [];
-  protected readonly Fade = Fade;
 
   constructor(
     private moviesService: MoviesService,
-    private genresService: GenresService
+    private genresService: GenresService,
+    private ngxToastService: NgxToastService
   ) {
   }
 
@@ -39,38 +44,61 @@ export class MovieComponent implements OnInit {
     this.getNowPlayingMovies();
     this.getPopularMovies();
     this.getGenres();
+    this.getTopRatedMovies();
   }
 
   getGenres() {
-    this.genresService.queryGenres('movie').subscribe({
-      next: (response: any) => this.genres = response.genres
+    const genre$: Subscription = this.genresService.queryGenres('movie').subscribe({
+      next: (response: any) => this.genres = response.genres,
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
     })
+
+    this.observers.push(genre$);
   }
 
   getNowPlayingMovies() {
-    this.moviesService.queryMovies('now_playing').subscribe({
+    const nowPlayingMovies$: Subscription = this.moviesService.queryMovies('now_playing').subscribe({
       next: (response: any) => {
-        this.moviesNowPlaying = response.results;
+        this.moviesNowPlaying = response?.results;
 
-        this.moviesNowPlaying.forEach((item, index) => {
+        this.moviesNowPlaying.forEach((item) => {
           if (this.headerMovies.length < 10) {
-            if (item.overview.length)
+            if (item?.overview?.length)
               this.headerMovies.push(item)
           }
         })
-      }
-    })
+      },
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+    });
+
+    this.observers.push(nowPlayingMovies$);
   }
 
   getPopularMovies() {
-    this.moviesService.queryMovies('popular').subscribe({
+    const popularMovies$: Subscription = this.moviesService.queryMovies('popular').subscribe({
       next: (response: any) => {
         this.popularMovies = response.results;
-      }
+      },
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
     })
+
+    this.observers.push(popularMovies$);
   }
 
-  onNeedPanel(event: any) {
-    console.log(event)
+  getTopRatedMovies(): void {
+    const topRatedMovie$ = this.moviesService.queryTopRatedMovie().subscribe({
+      next: (response: any) => {
+        this.topRatedMovies = response.results;
+      },
+      error: (err: HttpErrorResponse) => this.ngxToastService.error({ title: 'Error', messages: [err.message]})
+    });
+
+    this.observers.push(topRatedMovie$);
+  }
+
+  ngOnDestroy() {
+    this.observers.forEach((observer: Subscription) => {
+      observer.unsubscribe();
+    });
   }
 }

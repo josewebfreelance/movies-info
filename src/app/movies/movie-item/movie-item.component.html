@@ -1,4 +1,4 @@
-<a class="text-decoration-none" [routerLink]="isRedirect ? [isRedirect, item.id] : null">
+<a class="text-decoration-none" *ngIf="item[imageProperty]" [routerLink]="isRedirect ? [isRedirect, item.id] : null">
   <mat-card>
     <mat-card-content>
       <img class="poster-path" src="{{item[imageProperty] | imageTransform : false : 'w500'}}" alt=""/>
